@@ -1,0 +1,11 @@
+Dopo che hai categorizzato:
+(in v5 ci sono già le info di categoria negli appositi root file)
+
+rm tmp/tmpFile*.root
+mv tmp/*basic* data/smearerCat/
+./bin/ZFitter.exe -f data/validation/22Jan2012-runDepMCAll_v5.dat --regionsFile=data/regions/basic_pt.dat --smearerFit --EoP=true --invMass_var=invMass_SC --initFile=init_eop.txt> debug.txt
+
+(Lo potresti fare a botto anche con GenRootChain.sh)
+
+root -l test/dato/fitres/histos-basic-Et_25-trigger-noPF.root
+Ofai prima da TBrowser

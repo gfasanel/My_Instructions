@@ -1,0 +1,57 @@
+1) fare le correzioni smear e scale
+ZFitter.exe -f data/validation/22Jan2012-runDepMCAll_my.dat --regionsFile=data/regions/scaleStep2smearing_9.dat --smearEleType=stochastic --smearEleFile=mc_smear/smearing_sigma_and_errors_stocastic_rd_mc.dat --corrEleType=HggRunEtaR9Et --corrEleFile=data_scale/step8-invMass_SC_regrCorrSemiParV5_pho-loose-Et_20-trigger-noPF-HggRunEtaR9Et.dat  --saveRootMacro
+
+E a questo punto hai i .root file; li puoi spostare in data/other
+
+2) Categorizzare (gli dici di prendersi smear e scale dai file che hai creato prima [che quindi devono essere nel configFile])
+./script/GenRootChain.sh --corrEleType=HggRunEtaR9Et --smearEleType=stochastic --addBranch=smearerCat
+OPPURE
+./script/GenRootChain.sh -f data/validation/22Jan2012-runDepMCAll_my.dat --corrEleType=HggRunEtaR9Et --smearEleType=stochastic --EoP=true --addBranch=smearerCat
+
+
+Il punto 2) equivale a:
+./bin/ZFitter.exe -f data/validation/22Jan2012-runDepMCAll_my.dat --regionsFile=data/regions/basic_pt.dat --smearEleType=stochastic --corrEleType=HggRunEtaR9Et --addBranch=smearerCat --EoP=true --saveRootMacro
+
+e poi hadd delle chain
+
+
+Infine puoi fare tutto di colpo insieme (prendendosi le correzioni dai file e poi categorizzare)
+
+./script/GenRootChain.sh -f data/validation/22Jan2012-runDepMCAll_my.dat --corrEleType=HggRunEtaR9Et --corrEleFile=data_scale/step8-invMass_SC_regrCorrSemiParV5_pho-loose-Et_20-trigger-noPF-HggRunEtaR9Et.dat --smearEleType=stochastic --smearEleFile=mc_smear/smearing_sigma_and_errors_stocastic_rd_mc.dat --EoP=true --addBranch=smearerCat
+
+
+che equivale a=
+
+./bin/ZFitter.exe -f data/validation/22Jan2012-runDepMCAll_my.dat --regionsFile=data/regions/basic_pt.dat --smearEleType=stochastic --smearEleFile=mc_smear/smearing_sigma_and_errors_stocastic_rd_mc.dat --corrEleType=HggRunEtaR9Et --corrEleFile=data_scale/step8-invMass_SC_regrCorrSemiParV5_pho-loose-Et_20-trigger-noPF-HggRunEtaR9Et.dat --addBranch=smearerCat --EoP=true --saveRootMacro
+
+e poi hadd delle chain
+
+
+3) A questo punto puoi finalmente prendere le chain cosi':
+Controlla che la categorizzazione abbia funzionato, in base alle variabili che definiscono le categorie
+root -l tmp/d_chain.root tmp/s1_chain.root my_load.C 
+data->Draw("abs(etaEle[0])","smearerCat[0]==0");
+data->Draw("(gainEle[0])","smearerCat[0]==0");
+data->Draw("(PtEle[0])","smearerCat[0]==0");
+data->Draw("abs(etaEle[0])","smearerCat[0]==1");
+data->Draw("(gainEle[0])","smearerCat[0]==1");
+data->Draw("(PtEle[0])","smearerCat[0]==1");
+data->Draw("abs(etaEle[0])","smearerCat[0]==2");
+data->Draw("(gainEle[0])","smearerCat[0]==2");
+data->Draw("(PtEle[0])","smearerCat[0]==2");
+data->Draw("abs(etaEle[0])","smearerCat[0]==3");
+data->Draw("(gainEle[0])","smearerCat[0]==3");
+data->Draw("(PtEle[0])","smearerCat[0]==3");
+
+
+signalA->Draw("bla bla")
+
+
+====A questo punto sei sicuro che l'indice di categoria corrisponde a quanto ti aspetti=========================
+
+
+
+Puoi fittare
+
+
+

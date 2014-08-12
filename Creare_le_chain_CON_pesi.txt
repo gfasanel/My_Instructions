@@ -1,0 +1,26 @@
+Farsi le ntuple con i Friend Trees associati
+
+Breve storia:
+
+./script/GenRootChain.sh --corrEleType=HggRunEtaR9Et --smearEleType=stochastic --addBranch=smearerCat
+./script/GenRootChain.sh -f data/validation/22Jan2012-runDepMCAll_my.dat --corrEleType=HggRunEtaR9Et --smearEleType=stochastic --addBranch=smearerCat
+
+
+A questo punto, prima di poter fare i plot, bisogna ricaricare i trees che hai creato, per riassociare bene i friend (Root è bacato)
+root -l tmp/d_chain.root tmp/s1_chain.root tmp/s2_chain.root tmp/s3_chain.root tmp/load.C 
+
+E a questo punto, senza problemi puoi fare:
+data->Draw("scaleEle");
+signalA->Draw("smearEle"); 
+
+Però così quale massa invariante sto usando????????????? -> fare il check per capire
+
+data->Draw("scaleEle");
+signalA->Draw("") bla bla
+
+
+data->Draw("invMass_SC_regrCorr_ele")
+
+
+
+

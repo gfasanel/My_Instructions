@@ -1,0 +1,15 @@
+2) Ricarica bene i friend
+
+root -l tmp/d_chain.root tmp/s1_chain.root tmp/s2_chain.root tmp/s3_chain.root tmp/load.C 
+
+3) Finalmente plotta
+data->Draw(bla bla)
+signalA->Draw(bla bla)
+
+Perché load prende d, s1, s2, s3
+
+Attenzione:
+se fai 
+root -l tmp/s1_chain.root
+.ls
+vedi che oltre a selected c'è anche altro => quelli sono i friend trees che caricherà load.C

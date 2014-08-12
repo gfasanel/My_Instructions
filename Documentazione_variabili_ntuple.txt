@@ -1,0 +1,50 @@
+You can see info about the ntuple content here:
+http://ecalelfs.github.io/ECALELF/da/df9/classZNtupleDumper.html
+
+
+
+
+
+
+
+
+
+
+Le variabili di cui vuoi fare il plot sono in myPlotter
+Avevo cambiato una macro per farli 2D e profilati, ma adesso non andrà più bene
+Nel caso, aggiornare
+
+Da qui:
+/afs/cern.ch/user/g/gfasanel/scratch1/Service_work/CMSSW_5_3_7_patch6/src/Calibration/ZFitter
+
+passare a:
+cd /afs/cern.ch/user/g/gfasanel/scratch1/Gain_switch/CMSSW_5_3_14_patch2/src/Calibration/ZFitter
+
+myPlotter.C si trova in tmp/ dentro ZFitter
+
+invMass
+gainEle[0]
+energySCEle[0]
+pModeGsfEle[0]
+
+
+http://ecalelfs.github.io/ECALELF/index.html
+
+
+ECALELF:
+Dear ECALELF users,
+I've produced a new set of ntuples updated with
+- one additional branch with the information about the gain of seed crystal of the SC
+gainEle == 0 means gain12
+gainEle == 1 means gain6
+gainEle == 2 means gain1
+
+
+
+The new set of ntuples is indicated in file:
+Calibration/ZFitter/data/validation/22Jan2012-runDepMCAll_v3.dat
+
+Best regards,
+-- 
+Shervin
+

@@ -1,0 +1,30 @@
+======UNA volta che ti sei fatto tutti i pezzi (correzioni MC e categorizzazione)
+
+./bin/ZFitter.exe -f data/validation/22Jan2012-runDepMCAll_my.dat --regionsFile=data/regions/basic_pt.dat --smearEleType=stochastic --smearEleFile=mc_smear/smearing_sigma_and_errors_stocastic_rd_mc.dat --corrEleType=HggRunEtaR9Et --corrEleFile=data_scale/step8-invMass_SC_regrCorrSemiParV5_pho-loose-Et_20-trigger-noPF-HggRunEtaR9Et.dat --addBranch=smearerCat --EoP=true --saveRootMacro
+
+Se vuoi che l'attaccamento dei friend abbia successo non puoi semplicemente fare tutti i pezzi separatamente e poi hadd, 
+perchè in questo modo viene caricato correttamente solo l'ultimo friend.
+Il trucco è fare tutti i pezzi (correzioni MC e categorizzazione) nello stesso momento
+1) Metti insieme
+
+hadd -f tmp/s1_chain.root tmp/s1_selected_chain.root tmp/s1_smearEle_stochastic_chain.root tmp/s1_pileup_chain.root tmp/smearerCat_basic_pt_s1-22Jan2012-runDepMCAll_v4.root
+
+hadd tmp/smearerCat_basic_pt_d-22Jan2012-runDepMCAll_v4.root tmp/smearerCat_basic_pt_d1-22Jan2012-runDepMCAll_v4.root tmp/smearerCat_basic_pt_d2-22Jan2012-runDepMCAll_v4.root tmp/smearerCat_basic_pt_d3-22Jan2012-runDepMCAll_v4.root tmp/smearerCat_basic_pt_d4-22Jan2012-runDepMCAll_v4.root
+hadd tmp/d_chain.root tmp/d_*_chain.root tmp/smearerCat_basic_pt_d-22Jan2012-runDepMCAll_v4.root
+hadd -f tmp/d_chain.root tmp/d_selected_chain.root tmp/d_scaleEle_HggRunEtaR9Et_chain.root tmp/d_smearerCat_basic_pt_chain.root
+
+2) Ricarica bene i friend
+
+root -l tmp/d_chain.root tmp/s1_chain.root tmp/s2_chain.root tmp/s3_chain.root tmp/load.C 
+
+3) Finalmente plotta
+data->Draw(bla bla)
+signalA->Draw(bla bla)
+
+Perché load prende d, s1, s2, s3
+
+Attenzione:
+se fai 
+root -l tmp/s1_chain.root
+.ls
+vedi che oltre a selected c'è anche altro => quelli sono i friend trees che caricherà load.C

@@ -1,0 +1,57 @@
+ZFitter.exe -f data/validation/22Jan2012-runDepMCAll_my.dat --regionsFile=data/regions/scaleStep2smearing_9.dat --smearEleType=stochastic --smearEleFile=mc_smear/smearing_sigma_and_errors_stocastic_rd_mc.dat --corrEleType=HggRunEtaR9Et --corrEleFile=data_scale/step8-invMass_SC_regrCorrSemiParV5_pho-loose-Et_20-trigger-noPF-HggRunEtaR9Et.dat  --saveRootMacro
+
+
+
+I file di scala e smear, me li ha passati shervin e sono qui:
+~shervin/public/4fasanella/
+
+
+mv tmp/scaleEle* data/other/
+mv tmp/smearEle* data/other/
+
+a questo punto puoi aggiungere nel .dat di validazione i file di correzione e verranno presi
+
+cosi':
+##### Scale correction trees
+d1      scaleEle_HggRunEtaR9Et  data/other/scaleEle_HggRunEtaR9Et_d1-22Jan2012-runDepMCAll_v3.root
+d2      scaleEle_HggRunEtaR9Et  data/other/scaleEle_HggRunEtaR9Et_d2-22Jan2012-runDepMCAll_v3.root
+d3      scaleEle_HggRunEtaR9Et  data/other/scaleEle_HggRunEtaR9Et_d3-22Jan2012-runDepMCAll_v3.root
+d4      scaleEle_HggRunEtaR9Et  data/other/scaleEle_HggRunEtaR9Et_d4-22Jan2012-runDepMCAll_v3.root
+#
+s1      smearEle_stochastic     data/other/smearEle_stochastic_s1-22Jan2012-runDepMCAll_v3.root
+s2      smearEle_stochastic     data/other/smearEle_stochastic_s2-22Jan2012-runDepMCAll_v3.root
+s3      smearEle_stochastic     data/other/smearEle_stochastic_s3-22Jan2012-runDepMCAll_v3.root
+
+
+
+
+
+
+
+
+
+
+=====spostare altrove
+Per gestire i tagli:
+ GetCut() e' in ElectronCategory_class o qualcosa del genere in src
+
+Il primo punto della mia to do list è M_{"Ep"}. Giusto?
+> Tecnicamente come andrebbe fatta questa cosa? Cioè, per fare la massa invariante a me serve
+> il quadrivettore degli elettroni. Quali sarebbero i miei 2 quadrivettori diversi, uno associato a E e l'altro a p?
+
+questa la fai facendo tipo
+invMass_SC_regrCorrSemiParV5_ele/energySCEle_regrCorrSemiParV5_ele[1]*pModeGsfEle[1]
+e
+invMass_SC_regrCorrSemiParV5_ele/energySCEle_regrCorrSemiParV5_ele[0]*pModeGsfEle[0]
+dividi la massa invariante per l'energia con cui e' stata calcolata la massa invariante e la moltiplichi per il momento
+
+
+
+
+Allora: GetCut si usa così:
+
+  if(category.Sizeof()>1) selection_data = cutter.GetCut(category, false,0,scale);
+
+
+Questo è come draw tratta i TCut per fare i plot
+
